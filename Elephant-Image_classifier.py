@@ -4,7 +4,6 @@
 # Net.blobs ----input data
 This has the following parameters – 
 batch size, channel dimension, height and width
-
 #Net.params--- vector of blobs for having weight and bias 
 '''
 from keras.preprocessing.image import ImageDataGenerator, array_to_img, img_to_array, load_img
