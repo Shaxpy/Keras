@@ -29,7 +29,6 @@ for batch in datagen.flow(x, batch_size=1,
     i += 1
     if i > 20:
         break  # otherwise the generator would loop indefinitely
-
 from keras.models import Sequential
 from keras.layers import Conv2D, MaxPooling2D
 from keras.layers import Activation, Dropout, Flatten, Dense
