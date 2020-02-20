@@ -1,7 +1,7 @@
 '''
 #Convoluted output of original image-Activation Map
 #ALexNEt used here
-# Net.blobs ----input data
+# Net.blobs ---input data
 This has the following parameters – 
 batch size, channel dimension, height and width
 #Net.params--- vector of blobs for having weight and bias 
