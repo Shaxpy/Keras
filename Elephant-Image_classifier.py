@@ -89,4 +89,5 @@ model.fit_generator(train_generator,
         epochs=50,
         validation_data=validation_generator,
         validation_steps=160 // batch_size)
-model.save_weights('50_epochs.h5')  # always save your weights after training or during training
+model.save_weights('50_epochs.h5')  
+# always save your weights after training or during training
