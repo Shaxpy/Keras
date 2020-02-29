@@ -20,7 +20,6 @@ img = load_img('/home/shaxpy/Desktop/git/elephant-1822636_1280.jpg')  # this is 
 x = img_to_array(img)  # this is a Numpy array with shape (300, 300, 3)
 x = x.reshape((1,) + x.shape)  # this is a Numpy array with shape (1, 300, 300, 3)
 x.shape
-
 # the .flow() command below generates batches of randomly transformed images
 # and saves the results to the `preview/` directory
 i = 0
