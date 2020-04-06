@@ -111,7 +111,7 @@ def summarize_scores(name, scores):
 	pyplot.boxplot(scores)
 	pyplot.show()
  
-series = read_csv('monthly-car-sales.csv', header=0, index_col=0)
+series = read_csv('device41.csv', header=0, index_col=0)
 data = series.values
 # data split
 n_test = 12
