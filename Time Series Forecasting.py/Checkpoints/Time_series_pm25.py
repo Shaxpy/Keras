@@ -497,9 +497,6 @@ plt.plot(predictions_ARIMA, color='red')
 plt.title('RMSE: %.4f'% np.sqrt(sum((predictions_ARIMA-ts)**2)/len(ts)))
 
 
-# In[ ]:
-
-
 
 
 
