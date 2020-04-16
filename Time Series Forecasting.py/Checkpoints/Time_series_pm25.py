@@ -1,9 +1,3 @@
-#!/usr/bin/env python
-# coding: utf-8
-
-# # Loading Data
-
-# In[1]:
 
 
 import pandas as pd
