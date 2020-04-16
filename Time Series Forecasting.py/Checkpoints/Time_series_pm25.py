@@ -500,12 +500,6 @@ plt.title('RMSE: %.4f'% np.sqrt(sum((predictions_ARIMA-ts)**2)/len(ts)))
 # In[ ]:
 
 
-series = pd.read_csv('device41.csv', header=0, parse_dates=[0], index_col=0, squeeze=True, date_parser=dateparse)
-X = series.values
-size = int(len(X) * 0.66)
-train, test = X[0:size], X[size:len(X)]
-history = [x for x in train]
-predictions = list()
 
 
 
