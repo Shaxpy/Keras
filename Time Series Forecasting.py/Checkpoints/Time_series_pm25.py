@@ -1,3 +1,7 @@
+#!/usr/bin/env python
+# coding: utf-8
+
+# In[1]:
 
 
 import pandas as pd
@@ -32,8 +36,8 @@ data.dtypes
 # In[5]:
 
 
-dateparse = lambda dates: pd.datetime.strptime('2013-01-01 09:10:12','%Y-%m-%d %H:%M:%S')
-data = pd.read_csv('device41.csv', parse_dates=['DateTime'], index_col='DateTime')
+dateparse = lambda dates: pd.datetime.strptime(dates,'%Y-%m-%d %H:%M:%S')
+data = pd.read_csv('device41.csv', parse_dates=['DateTime'], index_col='DateTime',date_parser=dateparse)
 data.head()
 
 
@@ -95,8 +99,8 @@ from statsmodels.tsa.stattools import adfuller
 
 def rolling_stats(timeseries):
     #Window of 12 months
-    rolmean = timeseries.rolling(10).mean()
-    rolstd = timeseries.rolling(10).std()
+    rolmean = timeseries.rolling(12).mean()
+    rolstd = timeseries.rolling(12).std()
     orig = plt.plot(timeseries, color='blue',label='Original')
     mean = plt.plot(rolmean, color='red', label='Rolling Mean')
     std = plt.plot(rolstd, color='black', label = 'Rolling Std')
@@ -184,7 +188,7 @@ plt.plot(moving_avg, color='red')
 
 
 ts_log_moving_avg_diff = ts_log - moving_avg
-ts_log_moving_avg_diff.head(12)
+ts_log_moving_avg_diff.head(1)
 
 
 # In[21]:
@@ -214,7 +218,7 @@ augmented_dickey_fuller(ts_log_moving_avg_diff)
 # In[24]:
 
 
-expweighted_avg = pd.Series.ewm(ts_log, halflife=12).mean()
+expweighted_avg = pd.Series.ewm(ts_log, halflife=50).mean()
 plt.plot(ts_log)
 plt.legend(loc='best')
 plt.plot(expweighted_avg, color='red')
@@ -384,21 +388,21 @@ augmented_dickey_fuller(ts_log_decompose)
 # 1. Auto-correlation Function (ACF): Measure of co-relation of a time series with a lagged version of itself.
 # 2. Partial Auto-correlation Function (PACF): ACF but after eliminating the variations already explained by previous successive lags.
 
-# In[42]:
+# In[54]:
 
 
 from statsmodels.tsa.stattools import acf, pacf
 import statsmodels.api as sm
 
 
-# In[43]:
+# In[55]:
 
 
-lag_acf = acf(ts_log_diff, nlags=60)
-lag_pacf = pacf(ts_log_diff, nlags=60, method='ols')
+lag_acf = acf(ts_log_diff, nlags=200)
+lag_pacf = pacf(ts_log_diff, nlags=200, method='ols')
 
 
-# In[44]:
+# In[56]:
 
 
 plt.subplot(121) 
@@ -423,7 +427,7 @@ plt.tight_layout()
 # 
 # Note: RSS printed is for the residuals and not for the actual series
 
-# In[45]:
+# In[57]:
 
 
 from statsmodels.tsa.arima_model import ARIMA
@@ -433,11 +437,11 @@ from statsmodels.tsa.arima_model import ARIMA
 
 # ### Case 1: AR Model
 
-# In[ ]:
+# In[58]:
 
 
 model = ARIMA(ts_log, order=(5, 1, 0))  
-results_AR = model.fit(disp=5)  
+results_AR= model.fit(disp=50)  
 plt.plot(ts_log_diff)
 plt.plot(results_AR.fittedvalues, color='red')
 plt.title('RSS: %.4f'% sum((results_AR.fittedvalues-ts_log_diff)**2))
@@ -445,14 +449,24 @@ plt.title('RSS: %.4f'% sum((results_AR.fittedvalues-ts_log_diff)**2))
 
 # ### Case 2: MA Model
 
-# In[47]:
+# In[59]:
 
 
-model = ARIMA(ts_log, order=(1, 1,0))  
-results_MA = model.fit(disp=-1)  
+model = ARIMA(ts_log, order=(5, 1,0))  
+results_MA = model.fit(disp=50)  
 plt.plot(ts_log_diff)
 plt.plot(results_MA.fittedvalues, color='red')
 plt.title('RSS: %.4f'% sum((results_MA.fittedvalues-ts_log_diff)**2))
+
+
+# In[ ]:
+
+
+model = ARIMA(ts_log, order=(2, 1, 2))  
+results_ARIMA = model.fit(disp=-1)  
+plt.plot(ts_log_diff)
+plt.plot(results_ARIMA.fittedvalues, color='red')
+plt.title('RSS: %.4f'% sum((results_ARIMA.fittedvalues-ts_log_diff)**2))
 
 
 # # Restoring to Original Scale
@@ -476,7 +490,7 @@ predictions_ARIMA_diff_cumsum.head()
 # In[51]:
 
 
-predictions_ARIMA_log = pd.Series(ts_log.ix[0], index=ts_log.index)
+predictions_ARIMA_log = pd.Series(ts_log.ix[10], index=ts_log.index)
 predictions_ARIMA_log = predictions_ARIMA_log.add(predictions_ARIMA_diff_cumsum,fill_value=0)
 predictions_ARIMA_log.head()
 
@@ -497,14 +511,25 @@ plt.plot(predictions_ARIMA, color='red')
 plt.title('RMSE: %.4f'% np.sqrt(sum((predictions_ARIMA-ts)**2)/len(ts)))
 
 
+# In[ ]:
 
 
 
 
 
+# In[ ]:
 
 
 
+
+
+# In[ ]:
+
+
+
+
+
+# In[ ]:
 
 
 
