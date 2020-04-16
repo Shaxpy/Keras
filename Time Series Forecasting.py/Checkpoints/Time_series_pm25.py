@@ -524,8 +524,6 @@ plt.show()
 
 
 
-series = pd.read_csv('device41.csv', header=0, parse_dates=[0], index_col=0, squeeze=True, date_parser=dateparse)
-autocorrelation_plot(series)
 
 
 
